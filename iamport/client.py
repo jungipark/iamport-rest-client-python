@@ -57,6 +57,11 @@ class Iamport(object):
         response = self.requests_session.post(url, headers=headers, data=payload)
         return self.get_response(response)
 
+    def _delete(self, url, payload=None):
+        headers = self.get_headers()
+        response = self.requests_session.delete(url, headers=headers, data=payload)
+        return self.get_response(response)
+
     def find_by_merchant_uid(self, merchant_uid):
         url = '{}payments/find/{}'.format(self.imp_url, merchant_uid)
         return self._get(url)
@@ -86,6 +91,36 @@ class Iamport(object):
                 raise KeyError('Essential parameter is missing!: %s' % key)
 
         return self._post(url, kwargs)
+
+    def find_customer_uid(self, customer_uid):
+        url = '{}/subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=customer_uid)
+        return self._get(url)
+
+    def create_customer_uid(self, **kwargs):
+        if 'customer_uid' not in kwargs:
+            raise KeyError('customer_uid is required')
+        url = '{}/subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=kwargs['customer_uid'])
+        for key in ['customer_uid', 'card_number', 'expiry', 'birth']:
+            if key not in kwargs:
+                raise KeyError('Essential parameter is missing!: %s' % key)
+        return self._post(url, kwargs)
+
+    def delete_customer_uid(self, customer_uid):
+        url = '{}/subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=customer_uid)
+        return self._delete(url)
+
+    def find_payments_by_customer_uid(self, **kwargs):
+        if 'customer_uid' not in kwargs:
+            raise KeyError('customer_uid is required')
+        url = '{}/subscribe/customers/{customer_uid}/payments'.format(self.imp_url, customer_uid=kwargs['customer_uid'])
+        return self._get(url, kwargs)
+
+    def find_schedules_by_customer_uid(self, **kwargs):
+        if 'customer_uid' not in kwargs:
+            raise KeyError('customer_uid is required')
+        url = '{}/subscribe/customers/{customer_uid}/schedules'.format(self.imp_url,
+                                                                       customer_uid=kwargs['customer_uid'])
+        return self._get(url, kwargs)
 
     def pay_again(self, **kwargs):
         url = '{}subscribe/payments/again'.format(self.imp_url)
