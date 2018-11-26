@@ -93,32 +93,32 @@ class Iamport(object):
         return self._post(url, kwargs)
 
     def find_customer_uid(self, customer_uid):
-        url = '{}/subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=customer_uid)
+        url = '{}subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=customer_uid)
         return self._get(url)
 
     def create_customer_uid(self, **kwargs):
         if 'customer_uid' not in kwargs:
             raise KeyError('customer_uid is required')
-        url = '{}/subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=kwargs['customer_uid'])
+        url = '{}subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=kwargs['customer_uid'])
         for key in ['customer_uid', 'card_number', 'expiry', 'birth']:
             if key not in kwargs:
                 raise KeyError('Essential parameter is missing!: %s' % key)
         return self._post(url, kwargs)
 
     def delete_customer_uid(self, customer_uid):
-        url = '{}/subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=customer_uid)
+        url = '{}subscribe/customers/{customer_uid}'.format(self.imp_url, customer_uid=customer_uid)
         return self._delete(url)
 
     def find_payments_by_customer_uid(self, **kwargs):
         if 'customer_uid' not in kwargs:
             raise KeyError('customer_uid is required')
-        url = '{}/subscribe/customers/{customer_uid}/payments'.format(self.imp_url, customer_uid=kwargs['customer_uid'])
+        url = '{}subscribe/customers/{customer_uid}/payments'.format(self.imp_url, customer_uid=kwargs['customer_uid'])
         return self._get(url, kwargs)
 
     def find_schedules_by_customer_uid(self, **kwargs):
         if 'customer_uid' not in kwargs:
             raise KeyError('customer_uid is required')
-        url = '{}/subscribe/customers/{customer_uid}/schedules'.format(self.imp_url,
+        url = '{}subscribe/customers/{customer_uid}/schedules'.format(self.imp_url,
                                                                        customer_uid=kwargs['customer_uid'])
         return self._get(url, kwargs)
 
