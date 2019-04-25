@@ -119,7 +119,7 @@ class Iamport(object):
         if 'customer_uid' not in kwargs:
             raise KeyError('customer_uid is required')
         url = '{}subscribe/customers/{customer_uid}/schedules'.format(self.imp_url,
-                                                                       customer_uid=kwargs['customer_uid'])
+                                                                      customer_uid=kwargs['customer_uid'])
         return self._get(url, kwargs)
 
     def pay_again(self, **kwargs):
@@ -199,3 +199,11 @@ class Iamport(object):
         response = self._get(url)
         response_amount = response.get('amount')
         return response_amount == amount
+
+    def vbank_holder(self, bank_code, bank_num):
+        url = '{}vbank/holder'.format(self.imp_url)
+        payload = {
+            'bank_code': bank_code,
+            'bank_num': bank_num
+        }
+        return self._get(url, payload=payload)
