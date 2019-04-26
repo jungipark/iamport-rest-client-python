@@ -201,7 +201,7 @@ class Iamport(object):
         return response_amount == amount
 
     def vbank_holder(self, bank_code, bank_num):
-        url = '{}vbank/holder'.format(self.imp_url)
+        url = '{}vbanks/holder'.format(self.imp_url)
         payload = {
             'bank_code': bank_code,
             'bank_num': bank_num
